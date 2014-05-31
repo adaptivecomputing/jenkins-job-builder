@@ -872,7 +872,7 @@ def conditional_step(parser, xml_parent, data):
                      'org.jenkins_ci.plugins.run_condition.core.'
                      'BooleanCondition')
             XML.SubElement(ctag, "token").text = cdata['condition-expression']
-        elif kind == "string-match":
+        elif kind == "strings-match":
             ctag.set('class',
                      'org.jenkins_ci.plugins.run_condition.core.'
                      'StringsMatchCondition')
