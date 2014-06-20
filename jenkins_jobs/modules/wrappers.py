@@ -441,21 +441,32 @@ def port_allocator(parser, xml_parent, data):
     <https://wiki.jenkins-ci.org/display/JENKINS/Port+Allocator+Plugin>`_
 
     :arg str name: Variable name of the port or a specific port number
+    :arg list names: Variable list of names of the port or list of specific port numbers
 
     Example::
 
       wrappers:
         - port-allocator:
             name: SERVER_PORT
+
+      wrappers:
+        - port-allocator:
+            names:
+              - SERVER_PORT
+              - SERVER_PORT2
     """
     pa = XML.SubElement(xml_parent,
                         'org.jvnet.hudson.plugins.port__allocator.'
                         'PortAllocator')
     ports = XML.SubElement(pa, 'ports')
-    dpt = XML.SubElement(ports,
+    names = data.get('names', None)
+    if not names:
+        names = [data['name']]
+    for name in names:
+        dpt = XML.SubElement(ports,
                          'org.jvnet.hudson.plugins.port__allocator.'
                          'DefaultPortType')
-    XML.SubElement(dpt, 'name').text = data['name']
+        XML.SubElement(dpt, 'name').text = name
 
 
 def locks(parser, xml_parent, data):
